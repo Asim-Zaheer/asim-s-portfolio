@@ -98,9 +98,10 @@ const experiences = [
 		points: [
 			"Developed full-stack solutions for web and mobile applications using modern technologies.",
 			"Engineered scalable backend APIs with Node js , mongo DB ",
+			"Implemented GraphQL APIs for efficient data fetching and improved client-server communication.",
+			"Built and maintained FastAPI services for high-performance backend operations.",
 			"Performed thorough testing and assisted in the management and optimization of web applications.",
 			"Collaborated closely with cross-functional teams to deliver high-quality, maintainable code..",
-			"Positive Business Impact: Contributed to +54.25% sales and overall business growth through the improved website."
 		],
 	},
 	{
@@ -118,7 +119,7 @@ const experiences = [
 	},
 	{
 		title: "Software Developer",
-		company_name: "Way to Web Pvt. Ltd.",
+		company_name: "At 360XpertSolution",
 		icon: "/company/360-modified.png",
 		iconBg: "#E6DEDD",
 		date: "2023 - 2024",
