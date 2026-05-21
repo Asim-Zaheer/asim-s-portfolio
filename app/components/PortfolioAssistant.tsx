@@ -42,6 +42,9 @@ const PortfolioAssistant = () => {
 			}
 
 			setAiAnswer(data.answer);
+			if (data.fallback && data.error) {
+				setError(data.error);
+			}
 		} catch {
 			setAiAnswer("");
 			setError("Gemini is unavailable right now, so the portfolio is showing the local answer.");

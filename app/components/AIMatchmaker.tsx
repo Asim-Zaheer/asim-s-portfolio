@@ -45,6 +45,9 @@ const AIMatchmaker = () => {
 			}
 
 			setAiPitch(data.answer);
+			if (data.fallback && data.error) {
+				setError(data.error);
+			}
 		} catch {
 			setAiPitch("");
 			setError("Gemini is unavailable right now, so the portfolio is showing the local fit summary.");

@@ -1,7 +1,7 @@
 import { buildFitAnalysis, buildPortfolioContext } from "@/app/utils/portfolio-intelligence";
 import { NextResponse } from "next/server";
 
-const GEMINI_MODEL = "gemini-2.0-flash";
+const GEMINI_MODELS = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-2.0-flash"];
 
 type PortfolioAiRequest = {
 	type?: "assistant" | "fit";
@@ -10,6 +10,14 @@ type PortfolioAiRequest = {
 	jobDescription?: string;
 	localAnswer?: string;
 	localPitch?: string;
+};
+
+const fallbackMessage = (body: PortfolioAiRequest) => {
+	if (body.type === "fit") {
+		return body.localPitch || "Gemini is unavailable right now, so the local role-fit summary is being shown.";
+	}
+
+	return body.localAnswer || "Gemini is unavailable right now, so the local portfolio answer is being shown.";
 };
 
 const buildPrompt = ({
@@ -81,41 +89,63 @@ export async function POST(request: Request) {
 		const body = (await request.json()) as PortfolioAiRequest;
 		const prompt = buildPrompt(body);
 
-		const response = await fetch(
-			`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${process.env.GEMINI_API_KEY}`,
-			{
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					contents: [
-						{
-							role: "user",
-							parts: [{ text: prompt }],
+		let lastStatus = 500;
+		let lastError = "";
+
+		for (const model of GEMINI_MODELS) {
+			const response = await fetch(
+				`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`,
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						contents: [
+							{
+								role: "user",
+								parts: [{ text: prompt }],
+							},
+						],
+						generationConfig: {
+							temperature: 0.35,
+							topP: 0.9,
+							maxOutputTokens: body.type === "fit" ? 420 : 220,
 						},
-					],
-					generationConfig: {
-						temperature: 0.35,
-						topP: 0.9,
-						maxOutputTokens: body.type === "fit" ? 520 : 260,
-					},
-				}),
-			},
-		);
+					}),
+				},
+			);
 
-		if (!response.ok) {
-			const error = await response.text();
-			return NextResponse.json({ error: `Gemini request failed: ${error}` }, { status: response.status });
+			if (response.ok) {
+				const data = await response.json();
+				const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+				if (answer) {
+					return NextResponse.json({ answer, model });
+				}
+
+				lastStatus = 502;
+				lastError = "Gemini returned an empty response.";
+				continue;
+			}
+
+			lastStatus = response.status;
+			lastError = await response.text();
+
+			if (response.status !== 404 && response.status !== 429) {
+				break;
+			}
 		}
 
-		const data = await response.json();
-		const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-		if (!answer) {
-			return NextResponse.json({ error: "Gemini returned an empty response." }, { status: 502 });
-		}
-
-		return NextResponse.json({ answer });
+		return NextResponse.json({
+			answer: fallbackMessage(body),
+			fallback: true,
+			error:
+				lastStatus === 429
+					? "Gemini quota or rate limit reached. Showing local fallback."
+					: lastStatus === 404
+						? "Configured Gemini model is unavailable for this API key. Showing local fallback."
+						: `Gemini request failed. Showing local fallback. ${lastError}`,
+		});
 	} catch {
-		return NextResponse.json({ error: "Unable to generate AI response." }, { status: 500 });
+		return NextResponse.json({ answer: "Unable to generate AI response right now.", fallback: true });
 	}
 }
