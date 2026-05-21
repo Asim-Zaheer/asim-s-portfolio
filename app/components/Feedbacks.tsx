@@ -23,13 +23,13 @@ const FeedbackCard = ({
 	image,
 }: FeedbackCardProps) => (
 	<motion.div
-		variants={fadeIn("", "spring", index * 0.5, 0.75)}
-		className="bg-black-200 p-10 rounded-3xl xs:w-[320px] w-full"
+		variants={fadeIn("", "spring", index * 0.15, 0.65)}
+		className="w-full rounded-lg bg-black-200 p-5 sm:p-8 lg:max-w-[360px]"
 	>
 		<p className="text-white font-black text-[48px]">&quot;</p>
 
 		<div className="mt-1 ">
-			<p className="text-white tracking-wider text-[18px]">{testimonial}</p>
+			<p className="break-words text-[16px] leading-7 tracking-wide text-white sm:text-[18px]">{testimonial}</p>
 			<div className="mt-7 flex justify-between items-center gap-1">
 				<div className="flex-1 flex flex-col">
 					<p className="text-white font-medium text-[16px]">
@@ -53,8 +53,8 @@ const FeedbackCard = ({
 
 const Feedbacks = () => {
 	return (
-		<div className="mt-12 bg-black-100 rounded-[20px]">
-			<div className="padding bg-tertiary rounded-2xl min-h-[300px]">
+		<div className="mt-12 rounded-lg bg-black-100">
+			<div className="padding min-h-[240px] rounded-lg bg-tertiary sm:min-h-[300px]">
 				<motion.div variants={textVariant()}>
 					<h2 className="sectionHeadText">Social Profiles</h2>
 					<p className="sectionSubText">
@@ -62,7 +62,7 @@ const Feedbacks = () => {
 					</p>
 				</motion.div>
 			</div>
-			<div className="paddingX -mt-20 pb-14 flex flex-wrap gap-7">
+			<div className="paddingX -mt-16 grid gap-5 pb-14 sm:-mt-20 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-7">
 				{testimonials.map((testimonial, index) => (
 					<FeedbackCard key={testimonial.id} index={index} {...testimonial} />
 				))}

@@ -1,10 +1,13 @@
 import {
 	About,
+	AIMatchmaker,
 	Contact,
 	Experience,
 	Feedbacks,
 	Hero,
 	Navbar,
+	PortfolioAssistant,
+	SkillProjectMap,
 	Tech,
 	Works,
 	StarsCanvas,
@@ -17,10 +20,13 @@ export default function Home() {
 				<Navbar />
 				<Hero />
 			</div>
+			<AIMatchmaker />
 			<About />
+			<PortfolioAssistant />
+			<Works />
+			<SkillProjectMap />
 			<Experience />
 			<Tech />
-			<Works />
 			<Feedbacks />
 			<div className="relative z-0">
 				<Contact />

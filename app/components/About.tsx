@@ -1,11 +1,11 @@
 "use client";
 
-import { SectionWrapper } from "./HigherOrderComponents";
+import { fadeIn, textVariant } from "@/app/utils/motion";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Tilt } from "react-tilt";
 import { services } from "../constants";
-import { fadeIn, textVariant } from "@/app/utils/motion";
+import { SectionWrapper } from "./HigherOrderComponents";
 
 type ServiceCardProps = {
 	index: number;
@@ -15,30 +15,17 @@ type ServiceCardProps = {
 
 const ServiceCard = ({ index, title, icon }: ServiceCardProps) => {
 	return (
-		<>
-			<Tilt
-				options={{ max: 45, scale: 1, speed: 450 }}
-				className="xs:w-[250px] w-full"
+		<Tilt options={{ max: 18, scale: 1, speed: 450 }} className="w-full xs:w-[250px]">
+			<motion.div
+				variants={fadeIn("right", "spring", 0.5 * index, 0.75)}
+				className="green-pink-gradient w-full rounded-lg p-px shadow-card"
 			>
-				<motion.div
-					variants={fadeIn("right", "spring", 0.5 * index, 0.75)}
-					className="w-full green-pink-gradient p-px rounded-[20px] shadow-card"
-				>
-					<div className="bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col">
-						<Image
-							src={icon}
-							width={64}
-							height={64}
-							alt={title}
-							className="w-16 h-16 object-contain"
-						/>
-						<h3 className="text-white text-[20px] font-bold text-center">
-							{title}
-						</h3>
-					</div>
-				</motion.div>
-			</Tilt>
-		</>
+				<div className="flex min-h-[220px] flex-col items-center justify-evenly rounded-lg bg-tertiary px-6 py-5 sm:min-h-[260px] sm:px-10">
+					<Image src={icon} width={64} height={64} alt={title} className="h-16 w-16 object-contain" />
+					<h3 className="text-center text-[18px] font-bold leading-snug text-white sm:text-[20px]">{title}</h3>
+				</div>
+			</motion.div>
+		</Tilt>
 	);
 };
 
@@ -47,16 +34,22 @@ const About = () => {
 		<>
 			<motion.div variants={textVariant()}>
 				<p className="sectionSubText">Introduction</p>
-				<h2 className="styles.sectionHeadText">Overview.</h2>
+				<h2 className="sectionHeadText">Overview.</h2>
 			</motion.div>
 
 			<motion.p
 				variants={fadeIn("", "", 0.1, 1)}
-				className="mt-4 text-secondary text-[17px] max-w-[3xl] leading-[30px]"
+				className="mt-4 max-w-3xl text-[17px] leading-[30px] text-secondary"
 			>
-			{`Hi, I’m Asim Zaheer, a graduated Full Stack Developer with hands-on experience delivering robust, high-performance web and mobile applications. I specialize in the MERN stack, Next.js, and React Native for cross-platform development, with additional expertise in Three.js and React Three Fiber for 3D web experiences. I build scalable backends using PostgreSQL, Node.js, and Fastify, Fast, RESTapi, GraphQL  and work confidently with state management tools like Redux Toolkit , React Query`} 
+				I am Asim Zaheer, a full-stack developer building high-performance web and
+				mobile applications with Next.js, React, React Native, TypeScript, Tailwind
+				CSS, Node.js, REST APIs, GraphQL, FastAPI, MongoDB, and PostgreSQL. I also
+				create interactive 3D web experiences with Three.js and React Three Fiber,
+				giving me a strong mix of product engineering, backend integration, mobile
+				delivery, and visual polish.
 			</motion.p>
-			<div className="mt-20 flex flex-wrap gap-10">
+
+			<div className="mt-12 grid gap-5 sm:mt-16 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-8">
 				{services.map((service, index) => (
 					<ServiceCard key={service.title} index={index} {...service} />
 				))}

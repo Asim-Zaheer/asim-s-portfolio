@@ -39,7 +39,7 @@ const ExperienceCard = ({ experience }: ExperienceCardProps) => {
       }
     >
       <div>
-        <h3 className="text-white text-[24px] font-bold">{experience.title}</h3>
+        <h3 className="break-words text-[20px] font-bold text-white sm:text-[24px]">{experience.title}</h3>
         <p
           className="text-secondary text-[16px] font-semibold"
           style={{ margin: 0 }}
@@ -52,7 +52,7 @@ const ExperienceCard = ({ experience }: ExperienceCardProps) => {
         {experience.points.map((point, index) => (
           <li
             key={`experience-point-${index}`}
-            className="text-white-100 text-[14px] pl-1 tracking-wider"
+            className="text-white-100 break-words text-[14px] leading-6 tracking-wide sm:pl-1 sm:tracking-wider"
           >
             {point}
           </li>
@@ -66,13 +66,13 @@ const Experience = () => {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className="styles.sectionSubText text-center">
+        <p className="sectionSubText text-center">
           What I have done so far
         </p>
         <h2 className="sectionHeadText text-center">Work Experience.</h2>
       </motion.div>
 
-      <div className="mt-20 flex flex-col">
+      <div className="mt-12 flex flex-col sm:mt-20">
         <VerticalTimeline>
           {experiences.map((experience, index) => (
             <ExperienceCard

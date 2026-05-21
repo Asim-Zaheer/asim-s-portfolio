@@ -5,7 +5,7 @@ import React from "react";
 const ResumeButton = () => {
 	return (
 		<Link
-			href="/resume/Muhammad-Asim-Zaheer-FlowCV-Resume-20250530.pdf"
+			href="/resume/Resume.pdf"
 			target="_blank"
 			download
 		>

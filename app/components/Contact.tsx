@@ -58,17 +58,17 @@ const Contact = () => {
 	};
 
 	return (
-		<div className="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden">
+		<div className="flex flex-col-reverse gap-8 overflow-hidden xl:mt-12 xl:flex-row xl:gap-10">
 			<motion.div
 				variants={slideIn("left", "tween", 0.2, 1)}
-				className="flex-[0.75] bg-black-100 p-8 rounded-2xl"
+				className="min-w-0 flex-[0.75] rounded-lg bg-black-100 p-4 sm:p-8"
 			>
-				<p className="heroSubText">Get in Touch</p>
-				<h3 className="heroHeadText">Contact.</h3>
+				<p className="sectionSubText">Get in Touch</p>
+				<h3 className="sectionHeadText">Contact.</h3>
 				<form
 					ref={formRef}
 					onSubmit={handleSubmit}
-					className="mt-12 flex flex-col gap-8"
+					className="mt-8 flex flex-col gap-6 sm:mt-10 sm:gap-8"
 				>
 					<label className="flex flex-col">
 						<span className="text-white font-medium mb-4">Your Name.</span>
@@ -77,7 +77,7 @@ const Contact = () => {
 							name="name"
 							value={form.name}
 							onChange={handleChange}
-							placeholder="Whats's your name?"
+							placeholder="What's your name?"
 							className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
 						/>
 					</label>
@@ -88,7 +88,7 @@ const Contact = () => {
 							name="email"
 							value={form.email}
 							onChange={handleChange}
-							placeholder="Whats's your email?"
+							placeholder="What's your email?"
 							className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
 						/>
 					</label>
@@ -105,15 +105,15 @@ const Contact = () => {
 					</label>
 					<button
 						type="submit"
-						className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
+						className="w-full rounded-lg bg-tertiary px-8 py-3 font-bold text-white shadow-md shadow-primary outline-none transition hover:bg-[#1d1740] sm:w-fit"
 					>
-						{loading ? "Sending..." : "Sent"}
+						{loading ? "Sending..." : "Send message"}
 					</button>
 				</form>
 			</motion.div>
 			<motion.div
 				variants={slideIn("right", "tween", 0.2, 1)}
-				className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]"
+				className="h-[300px] min-w-0 sm:h-[420px] md:h-[520px] xl:h-auto xl:flex-1"
 			>
 				<EarthCanvas />
 			</motion.div>
