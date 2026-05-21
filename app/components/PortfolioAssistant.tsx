@@ -117,11 +117,6 @@ const PortfolioAssistant = () => {
 						<p className="mt-3 whitespace-pre-line break-words text-[15px] leading-7 text-white sm:text-[16px] sm:leading-8">{displayedAnswer}</p>
 						{error && <p className="mt-3 text-sm leading-6 text-[#ffb86c]">{error}</p>}
 					</div>
-
-					<p className="mt-4 text-sm leading-6 text-secondary">
-						This assistant uses Gemini when configured, with structured portfolio data as
-						guardrails and a local fallback if the API is unavailable.
-					</p>
 				</motion.div>
 			</div>
 		</>
